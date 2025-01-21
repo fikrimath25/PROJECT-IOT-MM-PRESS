@@ -9,6 +9,9 @@ const lampStatus = document.getElementById('lamp-status');
 const acStatus = document.getElementById('ac-status');
 
 const notification = document.getElementById('notification');
+const rememberMeCheckbox = document.getElementById('rememberMe');
+const usernameInput = document.getElementById('username');
+const passwordInput = document.getElementById('password');
 
 let lampActive = false;
 let acActive = false;
@@ -21,15 +24,38 @@ const users = [
     { username: 'guest@example.com', password: 'GuestAccess' }
 ];
 
+// Load Remember Me Data
+document.addEventListener('DOMContentLoaded', () => {
+    const savedUsername = localStorage.getItem('rememberedUsername');
+    const savedPassword = localStorage.getItem('rememberedPassword');
+    const isRemembered = localStorage.getItem('rememberMe') === 'true';
+
+    if (savedUsername && savedPassword && isRemembered) {
+        usernameInput.value = savedUsername;
+        passwordInput.value = savedPassword;
+        rememberMeCheckbox.checked = true;
+    }
+});
+
 // Form Submission Handler
 authForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
+    const username = usernameInput.value;
+    const password = passwordInput.value;
 
     const user = users.find(user => user.username === username && user.password === password);
 
     if (user) {
+        if (rememberMeCheckbox.checked) {
+            localStorage.setItem('rememberedUsername', username);
+            localStorage.setItem('rememberedPassword', password);
+            localStorage.setItem('rememberMe', 'true');
+        } else {
+            localStorage.removeItem('rememberedUsername');
+            localStorage.removeItem('rememberedPassword');
+            localStorage.removeItem('rememberMe');
+        }
+
         notification.textContent = "Login berhasil!";
         notification.className = "notification success";
         notification.style.display = "block";
@@ -55,19 +81,26 @@ logoutButton.addEventListener('click', () => {
     if (confirm("Apakah Anda yakin ingin logout?")) {
         controlContainer.classList.add('hidden');
         loginContainer.classList.remove('hidden');
+        // Clear Remember Me Data on Logout
+        localStorage.removeItem('rememberedUsername');
+        localStorage.removeItem('rememberedPassword');
+        localStorage.removeItem('rememberMe');
     }
 });
 
 // Lamp Control
 lampToggle.addEventListener('click', () => {
     lampActive = !lampActive;
-    lampToggle.textContent = lampActive ? 'Nyala' : 'Mati';
-    lampStatus.classList.toggle('active', lampActive);
+    lampToggle.classList.toggle('on', lampActive);
+    lampToggle.classList.toggle('off', !lampActive);
+    lampToggle.textContent = lampActive ? 'ON' : 'OFF';
 });
 
 // AC Control
 acToggle.addEventListener('click', () => {
     acActive = !acActive;
-    acToggle.textContent = acActive ? 'Nyala' : 'Mati';
+    acToggle.classList.toggle('on', acActive);
+    acToggle.classList.toggle('off', !acActive);
+    acToggle.textContent = acActive ? 'ON' : 'OFF';
     acStatus.classList.toggle('active', acActive);
 });
