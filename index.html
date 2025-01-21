@@ -14,8 +14,8 @@
         <form id="auth-form">
             <input type="text" id="username" placeholder="Masukkan Username" required>
             <input type="password" id="password" placeholder="Masukkan Password" required>
-            <label for="rememberMe">
-                <input type="checkbox" id="rememberMe"> Remember Me
+            <label>
+                <input type="checkbox" id="remember-me"> Remember Me
             </label>
             <button type="submit">Masuk</button>
         </form>
@@ -47,10 +47,32 @@
         </div>
 
         <button class="logout" id="logout-button">Logout</button>
-
         <footer>Oasis MM Press Sunter Plant 2 © 2025</footer>
     </div>
 
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js"></script>
+
+    <!-- Firebase Configuration -->
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDJiQDVNWhepHS26jcmjvU_AZKaxYiGwtg",
+            authDomain: "iot-control-app-90f56.firebaseapp.com",
+            databaseURL: "https://iot-control-app-90f56-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "iot-control-app-90f56",
+            storageBucket: "iot-control-app-90f56.firebasestorage.app",
+            messagingSenderId: "893825386246",
+            appId: "1:893825386246:web:36f7f025c5698314480087",
+            measurementId: "G-N6LWRY50PC"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+    </script>
+
+    <!-- Main Script -->
     <script src="script.js"></script>
 </body>
 </html>
