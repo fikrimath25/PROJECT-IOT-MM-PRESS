@@ -1,3 +1,22 @@
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+
+// Firebase Configuration
+const firebaseConfig = {
+    apiKey: "AIzaSyDJiQDVNWhepHS26jcmjvU_AZKaxYiGwtg",
+    authDomain: "iot-control-app-90f56.firebaseapp.com",
+    databaseURL: "https://iot-control-app-90f56-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "iot-control-app-90f56",
+    storageBucket: "iot-control-app-90f56.firebasestorage.app",
+    messagingSenderId: "893825386246",
+    appId: "1:893825386246:web:fe493d446bcc6a8e480087",
+    measurementId: "G-PWS1VY6JZT"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+
 const authForm = document.getElementById('auth-form');
 const loginContainer = document.getElementById('login-container');
 const controlContainer = document.getElementById('control-container');
@@ -13,14 +32,6 @@ const rememberMeCheckbox = document.getElementById('remember-me');
 const usernameInput = document.getElementById('username');
 const passwordInput = document.getElementById('password');
 
-// Predefined Users
-const users = [
-    { username: 'fikrijf2006@gmail.com', password: 'Juanda2006' },
-    { username: 'Maintenance Press.White', password: 'Zenix123' },
-    { username: 'admin@example.com', password: 'AdminPass' },
-    { username: 'guest@example.com', password: 'GuestAccess' }
-];
-
 // Check if there's stored data for remember me
 window.onload = () => {
     const savedUsername = localStorage.getItem('username');
@@ -35,14 +46,15 @@ window.onload = () => {
 };
 
 // Form Submission Handler
-authForm.addEventListener('submit', (e) => {
+authForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const username = usernameInput.value;
     const password = passwordInput.value;
 
-    const user = users.find(user => user.username === username && user.password === password);
+    try {
+        // Firebase Authentication
+        await auth.signInWithEmailAndPassword(username, password);
 
-    if (user) {
         notification.textContent = "Login berhasil!";
         notification.className = "notification success";
         notification.style.display = "block";
@@ -62,8 +74,8 @@ authForm.addEventListener('submit', (e) => {
             controlContainer.classList.remove('hidden');
             notification.style.display = "none";
         }, 1000);
-    } else {
-        notification.textContent = "Login gagal! Username atau password salah.";
+    } catch (error) {
+        notification.textContent = "Login gagal! " + error.message;
         notification.className = "notification error";
         notification.style.display = "block";
 
@@ -76,22 +88,30 @@ authForm.addEventListener('submit', (e) => {
 // Logout Button Handler
 logoutButton.addEventListener('click', () => {
     if (confirm("Apakah Anda yakin ingin logout?")) {
-        controlContainer.classList.add('hidden');
-        loginContainer.classList.remove('hidden');
+        auth.signOut().then(() => {
+            controlContainer.classList.add('hidden');
+            loginContainer.classList.remove('hidden');
+        });
     }
 });
 
-// Lamp Control
 lampToggle.addEventListener('click', () => {
-    lampToggle.classList.toggle('on');
+    const isOn = lampToggle.classList.toggle('on');
     lampToggle.classList.toggle('off');
-    lampToggle.textContent = lampToggle.classList.contains('on') ? 'ON' : 'OFF';
+    lampToggle.textContent = isOn ? 'ON' : 'OFF';
+
+    // Update lamp state in Firebase Database
+    const lampRef = ref(database, 'lamp');
+    set(lampRef, isOn);
 });
 
-// AC Control
 acToggle.addEventListener('click', () => {
-    acToggle.classList.toggle('on');
+    const isOn = acToggle.classList.toggle('on');
     acToggle.classList.toggle('off');
-    acToggle.textContent = acToggle.classList.contains('on') ? 'ON' : 'OFF';
-    acStatus.classList.toggle('active', acToggle.classList.contains('on'));
+    acToggle.textContent = isOn ? 'ON' : 'OFF';
+
+    // Update AC state in Firebase Database
+    const acRef = ref(database, 'ac');
+    set(acRef, isOn);
 });
+
