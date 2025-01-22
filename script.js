@@ -20,6 +20,7 @@ const db = getDatabase(app);  // Firebase Database
 // Elemen DOM
 const authForm = document.getElementById('auth-form');
 const loginContainer = document.getElementById('login-container');
+const loginContainer1 = document.getElementById('login-container1');
 const controlContainer = document.getElementById('control-container');
 const logoutButton = document.getElementById('logout-button');
 
@@ -63,7 +64,7 @@ authForm.addEventListener('submit', (e) => {
                 localStorage.removeItem('password');
                 localStorage.removeItem('rememberMe');
             }
-
+            loginContainer1.classList.add('hidden');
             // Arahkan ke halaman kontrol setelah 1 detik
             setTimeout(() => {
                 loginContainer.classList.add('hidden');
@@ -88,6 +89,7 @@ logoutButton.addEventListener('click', () => {
     signOut(auth).then(() => {
         controlContainer.classList.add('hidden');
         loginContainer.classList.remove('hidden');
+        loginContainer1.classList.remove('hidden');
         notification.textContent = "Logout berhasil!";
         notification.className = "notification success";
         notification.style.display = "block";
