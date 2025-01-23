@@ -1,8 +1,8 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-app.js";
 import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-auth.js";
-import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-database.js";  // Firebase Database
-import { onValue } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-database.js";
+import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-database.js";
 
+//Konfigurasi Firebase
 const firebaseConfig = {
     apiKey: "AIzaSyA0bcsQKgj7SL17-l8c2DByCvmfP5YCmV8",
     authDomain: "project-1-b1010.firebaseapp.com",
@@ -21,9 +21,9 @@ const db = getDatabase(app);  // Firebase Database
 
 // Sinkronisasi status Lampu
 onValue(ref(db, 'LAMP1'), (snapshot) => {
-    const lampStatus = snapshot.val();
-    updateToggleStatus(lampToggle, lampStatus); // Update tombol berdasarkan Firebase
-    if (lampStatus) {
+    const currentStatus = snapshot.val();
+    updateToggleStatus(lampToggle, currentStatus); // Update tombol berdasarkan Firebase
+    if (currentStatus) {
         lampToggle.classList.add('on');
         lampToggle.classList.remove('off');
         lampToggle.textContent = 'ON';
@@ -156,8 +156,9 @@ lampToggle.addEventListener('click', () => {
     lampToggle.textContent = lampToggle.classList.contains('on') ? 'ON' : 'OFF';
     
     // Update status Lampu di Firebase
-    const lampStatus = lampToggle.classList.contains('on');  // true jika ON, false jika OFF
-    set(ref(db, 'LAMP1'), lampStatus)
+    const currentStatus = lampToggle.classList.contains('on');  // true jika ON, false jika OFF
+    const newStatus = !currentStatus; // Toggle status
+    set(ref(db, 'LAMP1'), newStatus) // Simpan status baru ke Firebase
         .then(() => {
             console.log('Lampu 1 status berhasil diperbarui di Firebase');
         })
@@ -166,14 +167,16 @@ lampToggle.addEventListener('click', () => {
         });
 });
 
+// Fungsi untuk mengontrol Lampu 2 (AC)
 acToggle.addEventListener('click', () => {
     acToggle.classList.toggle('on');
     acToggle.classList.toggle('off');
     acToggle.textContent = acToggle.classList.contains('on') ? 'ON' : 'OFF';
     
     // Update status AC di Firebase
-    const acStatus = acToggle.classList.contains('on');  // true jika ON, false jika OFF
-    set(ref(db, 'LAMP2'), acStatus)
+    const currentStatus = acToggle.classList.contains('on');  // true jika ON, false jika OFF
+    const newStatus = !currentStatus; // Toggle status
+    set(ref(db, 'LAMP2'), newStatus)
         .then(() => {
             console.log('AC status berhasil diperbarui di Firebase');
         })
@@ -181,3 +184,16 @@ acToggle.addEventListener('click', () => {
             console.error('Gagal memperbarui status AC di Firebase', error);
         });
 });
+
+// Fungsi untuk memperbarui status tombol di UI
+function updateToggleStatus(element, status) {
+    if (status) {
+        element.classList.add('on');
+        element.classList.remove('off');
+        element.textContent = 'ON';
+    } else {
+        element.classList.add('off');
+        element.classList.remove('on');
+        element.textContent = 'OFF';
+    }
+}
