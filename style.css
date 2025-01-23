@@ -1,9 +1,9 @@
 body {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
     background: linear-gradient(to bottom right, #80d0c7, #efe3ff,  #00c521 );
-    color: #030202;
+    color: #000000;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -11,25 +11,41 @@ body {
     overflow: hidden;
 }
 
+body {
+    font-family: 'Arial' serif, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
 .container {
     width: 100%;
     max-width: 400px;
     padding: 20px;
-    background: linear-gradient(to bottom right, #bfc1d6, #2e4992);
-    border-radius: 15px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    background: linear-gradient(to bottom right, #b5b8da, #1df73a);
+    border-radius: 50px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.534);
     text-align: center;
-    animation: slideIn 1s ease-in-out;
+    animation: slideIn 0.8s ease-in-out;
 }
+
+.container {
+    margin: 25px
+}
+
 .container1 {
     width: 100%;
     max-width: 410px;
-    padding: 20px;
-    background: linear-gradient(to bottom right, #bfc1d6, #2e4992);
-    border-radius: 15px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    padding: 5px;
+    background: linear-gradient(to bottom right, #b5b8da, #1df73a);
+    border-radius: 50px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.534);
     text-align: center;
-    animation: slideIn 1s ease-in-out;
+    animation: slideIn 0.9s ease-in-out;
 }
 
 @keyframes slideIn {
@@ -40,7 +56,7 @@ body {
 h2 {
     font-size: 28px;
     margin-bottom: 20px;
-    color: #103e57;
+    color: #000000
 }
 
 .notification {
@@ -53,7 +69,7 @@ h2 {
 }
 
 .notification.success {
-    background-color: #4CAF50;
+    background-color: #948d8d;
     color: white;
 }
 
@@ -70,12 +86,12 @@ form {
 
 input {
     padding: 12px;
-    border: 2px solid #13547a;
+    border: 2px solid #000000;
     border-radius: 5px;
     font-size: 14px;
     background: #f7f7f7;
     color: #333;
-    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 20px rgba(110, 95, 95, 0.534)
 }
 
 input:focus {
@@ -89,14 +105,15 @@ button {
     font-weight: bold;
     border: none;
     border-radius: 5px;
-    background: #13547a;
+    background: #000000;
     color: white;
     cursor: pointer;
     transition: background 0.3s ease;
+    box-shadow: 0 8px 20px rgba(110, 95, 95, 0.534)
 }
 
 button:hover {
-    background: #80d0c7;
+    background: #484949;
 }
 
 button.toggle {
@@ -106,12 +123,17 @@ button.toggle {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    transition: background 0,5ms ease, color 0.5s ease;
+    transition: background 0,5ms ease, color 0.5ms ease;
+    box-shadow: 0 8px 20px rgba(110, 95, 95, 0.534)
 }
 
 button.toggle.on {
-    background: rgb(30, 189, 30);
+    background: rgb(8, 223, 8);
     color: white;
+}
+
+button.toggle.on:hover {
+    background: #058b0e;
 }
 
 button.toggle.off {
@@ -119,15 +141,13 @@ button.toggle.off {
     color: white;
 }
 button.toggle.off:hover {
-    background: #7a4242;
+    background: #880000;
 }
-button.toggle.on:hover {
-    background: #2d5530;
-}
+
 footer {
     margin-top: 20px;
     font-size: 14px;
-    color: #555;
+    color: #ffffff;
 }
 
 .hidden {
@@ -158,12 +178,12 @@ footer {
 
 .logout {
     margin-top: 30px;
-    background: #F44336;
+    background: #000000;
     color: white;
 }
 
 .logout:hover {
-    background: #976363;
+    background: 37#48494937;
 }
 
 .status-indicator {

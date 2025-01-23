@@ -29,12 +29,12 @@ const acToggle = document.getElementById('ac-toggle');
 
 const notification = document.getElementById('notification');
 const rememberMeCheckbox = document.getElementById('remember-me');
-const usernameInput = document.getElementById('username');
+const emailInput = document.getElementById('email');
 const passwordInput = document.getElementById('password');
 
 // Cek jika rememberMe disimpan di localStorage dan isi input
 if (localStorage.getItem('rememberMe') === 'true') {
-    usernameInput.value = localStorage.getItem('email');
+    emailInput.value = localStorage.getItem('email');
     passwordInput.value = localStorage.getItem('password');
     rememberMeCheckbox.checked = true;
 }
@@ -42,7 +42,7 @@ if (localStorage.getItem('rememberMe') === 'true') {
 // Handler Form Login
 authForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    const email = usernameInput.value;
+    const email = emailInput.value;
     const password = passwordInput.value;
 
     // Firebase Authentication SignIn
