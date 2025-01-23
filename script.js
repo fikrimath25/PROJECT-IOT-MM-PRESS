@@ -22,6 +22,7 @@ const db = getDatabase(app);  // Firebase Database
 // Sinkronisasi status Lampu
 onValue(ref(db, 'LAMP1'), (snapshot) => {
     const lampStatus = snapshot.val();
+    updateToggleStatus(lampToggle, lampStatus); // Update tombol berdasarkan Firebase
     if (lampStatus) {
         lampToggle.classList.add('on');
         lampToggle.classList.remove('off');
@@ -36,6 +37,7 @@ onValue(ref(db, 'LAMP1'), (snapshot) => {
 // Sinkronisasi status AC
 onValue(ref(db, 'LAMP2'), (snapshot) => {
     const acStatus = snapshot.val();
+    updateToggleStatus(acToggle, acStatus); // Update tombol berdasarkan Firebase
     if (acStatus) {
         acToggle.classList.add('on');
         acToggle.classList.remove('off');
