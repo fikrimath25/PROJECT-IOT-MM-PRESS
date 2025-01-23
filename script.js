@@ -1,6 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-app.js";
 import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-auth.js";
-import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-database.js";  // Firebase Database
+import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-database.js";  // Firebase Database
+import { onValue } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-database.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyA0bcsQKgj7SL17-l8c2DByCvmfP5YCmV8",
@@ -17,14 +18,47 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getDatabase(app);  // Firebase Database
 
+
+// Sinkronisasi status Lampu
+onValue(ref(db, 'LAMP1'), (snapshot) => {
+    const lampStatus = snapshot.val();
+    updateToggleStatus(lampToggle, lampStatus); // Update tombol berdasarkan Firebase
+    if (lampStatus) {
+        lampToggle.classList.add('on');
+        lampToggle.classList.remove('off');
+        lampToggle.textContent = 'ON';
+    } else {
+        lampToggle.classList.add('off');
+        lampToggle.classList.remove('on');
+        lampToggle.textContent = 'OFF';
+    }
+});
+
+// Sinkronisasi status AC
+onValue(ref(db, 'LAMP2'), (snapshot) => {
+    const acStatus = snapshot.val();
+    updateToggleStatus(acToggle, acStatus); // Update tombol berdasarkan Firebase
+    if (acStatus) {
+        acToggle.classList.add('on');
+        acToggle.classList.remove('off');
+        acToggle.textContent = 'ON';
+    } else {
+        acToggle.classList.add('off');
+        acToggle.classList.remove('on');
+        acToggle.textContent = 'OFF';
+    }
+});
+
 // Elemen DOM
 const authForm = document.getElementById('auth-form');
 const loginContainer = document.getElementById('login-container');
 const loginContainer1 = document.getElementById('login-container1');
 const controlContainer = document.getElementById('control-container');
 const logoutButton = document.getElementById('logout-button');
+
 const lampToggle = document.getElementById('lamp-toggle');
 const acToggle = document.getElementById('ac-toggle');
+
 const notification = document.getElementById('notification');
 const rememberMeCheckbox = document.getElementById('remember-me');
 const emailInput = document.getElementById('email');
@@ -46,10 +80,13 @@ authForm.addEventListener('submit', (e) => {
     // Firebase Authentication SignIn
     signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
+            // Login berhasil
             const user = userCredential.user;
             notification.textContent = "Login berhasil!";
             notification.className = "notification success";
             notification.style.display = "block";
+
+            // Menangani fitur Remember Me
             if (rememberMeCheckbox.checked) {
                 localStorage.setItem('email', email);
                 localStorage.setItem('password', password);
@@ -60,6 +97,7 @@ authForm.addEventListener('submit', (e) => {
                 localStorage.removeItem('rememberMe');
             }
             loginContainer1.classList.add('hidden');
+            // Arahkan ke halaman kontrol setelah 1 detik
             setTimeout(() => {
                 loginContainer.classList.add('hidden');
                 controlContainer.classList.remove('hidden');
@@ -67,9 +105,11 @@ authForm.addEventListener('submit', (e) => {
             }, 1000);
         })
         .catch((error) => {
+            // Login gagal
             notification.textContent = "Login gagal! " + error.message;
             notification.className = "notification error";
             notification.style.display = "block";
+
             setTimeout(() => {
                 notification.style.display = "none";
             }, 3000);
@@ -85,6 +125,7 @@ logoutButton.addEventListener('click', () => {
         notification.textContent = "Logout berhasil!";
         notification.className = "notification success";
         notification.style.display = "block";
+
         setTimeout(() => {
             notification.style.display = "none";
         }, 2000);
@@ -98,75 +139,45 @@ logoutButton.addEventListener('click', () => {
 // Cek Status Autentikasi Pengguna
 onAuthStateChanged(auth, (user) => {
     if (user) {
+        // Pengguna sudah login
         loginContainer.classList.add('hidden');
         controlContainer.classList.remove('hidden');
     } else {
+        // Pengguna belum login
         controlContainer.classList.add('hidden');
         loginContainer.classList.remove('hidden');
     }
 });
 
-// Sinkronisasi status Lampu 1
-onValue(ref(db, 'LAMP1'), (snapshot) => {
-    const lampStatus = snapshot.val();
-    updateToggleStatus(lampToggle, lampStatus);
-    if (lampStatus) {
-        lampToggle.classList.add('on');
-        lampToggle.classList.remove('off');
-        lampToggle.textContent = 'ON';
-    } else {
-        lampToggle.classList.add('off');
-        lampToggle.classList.remove('on');
-        lampToggle.textContent = 'OFF';
-    }
-});
-
-// Sinkronisasi status Lampu 2 (AC)
-onValue(ref(db, 'LAMP2'), (snapshot) => {
-    const acStatus = snapshot.val();
-    updateToggleStatus(acToggle, acStatus);
-    if (acStatus) {
-        acToggle.classList.add('on');
-        acToggle.classList.remove('off');
-        acToggle.textContent = 'ON';
-    } else {
-        acToggle.classList.add('off');
-        acToggle.classList.remove('on');
-        acToggle.textContent = 'OFF';
-    }
-});
-
-// Fungsi untuk memperbarui status tombol
-function updateToggleStatus(element, status) {
-    if (status) {
-        element.classList.add('on');
-        element.classList.remove('off');
-        element.textContent = 'ON';
-    } else {
-        element.classList.add('off');
-        element.classList.remove('on');
-        element.textContent = 'OFF';
-    }
-}
-
-// Kontrol Lampu 1
+// Kontrol Lampu dan AC
 lampToggle.addEventListener('click', () => {
-    const lampStatus = lampToggle.classList.contains('on');
-    set(ref(db, 'LAMP1'), !lampStatus).then(() => {
-        console.log('Lampu 1 status berhasil diperbarui di Firebase');
-    }).catch((error) => {
-        console.error('Gagal memperbarui status Lampu 1 di Firebase', error);
-    });
+    lampToggle.classList.toggle('on');
+    lampToggle.classList.toggle('off');
+    lampToggle.textContent = lampToggle.classList.contains('on') ? 'ON' : 'OFF';
+    
+    // Update status Lampu di Firebase
+    const lampStatus = lampToggle.classList.contains('on');  // true jika ON, false jika OFF
+    set(ref(db, 'LAMP1'), lampStatus)
+        .then(() => {
+            console.log('Lampu 1 status berhasil diperbarui di Firebase');
+        })
+        .catch((error) => {
+            console.error('Gagal memperbarui status Lampu 1 di Firebase', error);
+        });
 });
 
-// Kontrol Lampu 2
 acToggle.addEventListener('click', () => {
-    const acStatus = acToggle.classList.contains('on');
-    set(ref(db, 'LAMP2'), !acStatus).then(() => {
-        console.log('Lampu 2 status berhasil diperbarui di Firebase');
-    }).catch((error) => {
-        console.error('Gagal memperbarui status Lampu 2 di Firebase', error);
-    });
+    acToggle.classList.toggle('on');
+    acToggle.classList.toggle('off');
+    acToggle.textContent = acToggle.classList.contains('on') ? 'ON' : 'OFF';
+    
+    // Update status AC di Firebase
+    const acStatus = acToggle.classList.contains('on');  // true jika ON, false jika OFF
+    set(ref(db, 'LAMP2'), acStatus)
+        .then(() => {
+            console.log('AC status berhasil diperbarui di Firebase');
+        })
+        .catch((error) => {
+            console.error('Gagal memperbarui status AC di Firebase', error);
+        });
 });
-
-
