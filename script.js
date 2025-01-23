@@ -1,7 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-app.js";
 import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-auth.js";
 import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-database.js";  // Firebase Database
-import { onValue } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-database.js"
+import { onValue } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-database.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyA0bcsQKgj7SL17-l8c2DByCvmfP5YCmV8",
@@ -22,7 +22,6 @@ const db = getDatabase(app);  // Firebase Database
 // Sinkronisasi status Lampu
 onValue(ref(db, 'LAMP1'), (snapshot) => {
     const lampStatus = snapshot.val();
-    updateToggleStatus(lampToggle, lampStatus); // Update tombol berdasarkan Firebase
     if (lampStatus) {
         lampToggle.classList.add('on');
         lampToggle.classList.remove('off');
@@ -34,23 +33,8 @@ onValue(ref(db, 'LAMP1'), (snapshot) => {
     }
 });
 
-// Fungsi untuk mengupdate tombol berdasarkan status dari Firebase
-function updateToggleStatus(toggleElement, status) {
-    if (status) {
-        toggleElement.classList.add('on');
-        toggleElement.classList.remove('off');
-        toggleElement.textContent = 'ON';
-    } else {
-        toggleElement.classList.add('off');
-        toggleElement.classList.remove('on');
-        toggleElement.textContent = 'OFF';
-    }
-}
-
 // Sinkronisasi status AC
 onValue(ref(db, 'LAMP2'), (snapshot) => {
-    const lampStatus = snapshot.val();
-    updateToggleStatus(acToggle, acStatus); // Update tombol berdasarkan Firebase
     const acStatus = snapshot.val();
     if (acStatus) {
         acToggle.classList.add('on');
