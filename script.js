@@ -17,6 +17,36 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getDatabase(app);  // Firebase Database
 
+import { onValue } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-database.js";
+
+// Sinkronisasi status Lampu
+onValue(ref(db, 'LAMP1'), (snapshot) => {
+    const lampStatus = snapshot.val();
+    if (lampStatus) {
+        lampToggle.classList.add('on');
+        lampToggle.classList.remove('off');
+        lampToggle.textContent = 'ON';
+    } else {
+        lampToggle.classList.add('off');
+        lampToggle.classList.remove('on');
+        lampToggle.textContent = 'OFF';
+    }
+});
+
+// Sinkronisasi status AC
+onValue(ref(db, 'LAMP2'), (snapshot) => {
+    const acStatus = snapshot.val();
+    if (acStatus) {
+        acToggle.classList.add('on');
+        acToggle.classList.remove('off');
+        acToggle.textContent = 'ON';
+    } else {
+        acToggle.classList.add('off');
+        acToggle.classList.remove('on');
+        acToggle.textContent = 'OFF';
+    }
+});
+
 // Elemen DOM
 const authForm = document.getElementById('auth-form');
 const loginContainer = document.getElementById('login-container');
