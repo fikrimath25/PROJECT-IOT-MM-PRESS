@@ -1,5 +1,5 @@
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: 'Arial', serif, sans-serif;
     margin: 0;
     padding: 0;
     background: linear-gradient(to bottom right, #80d0c7, #efe3ff,  #00c521 );
@@ -24,7 +24,7 @@ body {
 
 .container {
     width: 100%;
-    max-width: 400px;
+    max-width: 300px;
     padding: 20px;
     background: linear-gradient(to bottom right, #b5b8da, #1df73a);
     border-radius: 50px;
@@ -39,7 +39,7 @@ body {
 
 .container1 {
     width: 100%;
-    max-width: 410px;
+    max-width: 350px;
     padding: 5px;
     background: linear-gradient(to bottom right, #b5b8da, #1df73a);
     border-radius: 50px;
