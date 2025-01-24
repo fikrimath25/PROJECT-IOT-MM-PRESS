@@ -142,6 +142,19 @@ acToggle.addEventListener('click', () => {
     acToggle.classList.toggle('off');
     acToggle.textContent = acToggle.classList.contains('on') ? 'ON' : 'OFF';
     
+// Listener untuk status Lampu
+onValue(ref(db, 'LAMP1'), (snapshot) => {
+    const status = snapshot.val();
+    updateToggleStatus(lampToggle, status);
+    updateStatusIndicator(lampStatus, status);
+});
+
+// Listener untuk status AC
+onValue(ref(db, 'LAMP2'), (snapshot) => {
+    const status = snapshot.val();
+    updateToggleStatus(acToggle, status);
+    updateStatusIndicator(acStatus, status);
+});
     // Update status AC di Firebase
     const currentStatus = acToggle.classList.contains('off');  // true jika ON, false jika OFF
     const newStatus = !currentStatus; // Toggle status
