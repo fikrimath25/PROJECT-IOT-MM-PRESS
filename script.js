@@ -18,37 +18,6 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getDatabase(app);  // Firebase Database
 
-
-// Sinkronisasi status Lampu
-onValue(ref(db, 'LAMP1'), (snapshot) => {
-    const currentStatus = snapshot.val();
-    updateToggleStatus(lampToggle, currentStatus); // Update tombol berdasarkan Firebase
-    if (currentStatus) {
-        lampToggle.classList.add('on');
-        lampToggle.classList.remove('off');
-        lampToggle.textContent = 'ON';
-    } else {
-        lampToggle.classList.add('off');
-        lampToggle.classList.remove('on');
-        lampToggle.textContent = 'OFF';
-    }
-});
-
-// Sinkronisasi status AC
-onValue(ref(db, 'LAMP2'), (snapshot) => {
-    const acStatus = snapshot.val();
-    updateToggleStatus(acToggle, acStatus); // Update tombol berdasarkan Firebase
-    if (acStatus) {
-        acToggle.classList.add('on');
-        acToggle.classList.remove('off');
-        acToggle.textContent = 'ON';
-    } else {
-        acToggle.classList.add('off');
-        acToggle.classList.remove('on');
-        acToggle.textContent = 'OFF';
-    }
-});
-
 // Elemen DOM
 const authForm = document.getElementById('auth-form');
 const loginContainer = document.getElementById('login-container');
@@ -156,7 +125,7 @@ lampToggle.addEventListener('click', () => {
     lampToggle.textContent = lampToggle.classList.contains('on') ? 'ON' : 'OFF';
     
     // Update status Lampu di Firebase
-    const currentStatus = lampToggle.classList.contains('on');  // true jika ON, false jika OFF
+    const currentStatus = lampToggle.classList.contains('off');  // true jika ON, false jika OFF
     const newStatus = !currentStatus; // Toggle status
     set(ref(db, 'LAMP1'), newStatus) // Simpan status baru ke Firebase
         .then(() => {
@@ -174,7 +143,7 @@ acToggle.addEventListener('click', () => {
     acToggle.textContent = acToggle.classList.contains('on') ? 'ON' : 'OFF';
     
     // Update status AC di Firebase
-    const currentStatus = acToggle.classList.contains('on');  // true jika ON, false jika OFF
+    const currentStatus = acToggle.classList.contains('off');  // true jika ON, false jika OFF
     const newStatus = !currentStatus; // Toggle status
     set(ref(db, 'LAMP2'), newStatus)
         .then(() => {
