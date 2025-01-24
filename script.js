@@ -155,16 +155,40 @@ onValue(ref(db, 'LAMP2'), (snapshot) => {
     updateToggleStatus(acToggle, status);
     updateStatusIndicator(acStatus, status);
 });
-    // Update status AC di Firebase
-    const currentStatus = acToggle.classList.contains('off');  // true jika ON, false jika OFF
-    const newStatus = !currentStatus; // Toggle status
-    set(ref(db, 'LAMP2'), newStatus)
-        .then(() => {
+
+// Update status AC di Firebase
+const currentStatus = lampToggle.classList.contains('off');  // true jika ON, false jika OFF
+const newStatus = !currentStatus; // Toggle status
+set(ref(db, 'LAMP1'), newStatus)
+    .then(() => {
+        console.log('Lamp status berhasil diperbarui di Firebase');
+    })
+    .catch((error) => {
+        console.error('Gagal memperbarui status AC di Firebase', error);
+    });
+});
+
+// Update status AC di Firebase
+const currentStatus = acToggle.classList.contains('off');  // true jika ON, false jika OFF
+const newStatus = !currentStatus; // Toggle status
+set(ref(db, 'LAMP2'), newStatus)
+    .then(() => {
             console.log('AC status berhasil diperbarui di Firebase');
-        })
-        .catch((error) => {
-            console.error('Gagal memperbarui status AC di Firebase', error);
-        });
+    })
+    .catch((error) => {
+        console.error('Gagal memperbarui status AC di Firebase', error);
+    });
+
+// Event Listener untuk tombol Lampu
+lampToggle.addEventListener('click', () => {
+    const newStatus = lampToggle.classList.contains('on');
+    set(ref(db, 'LAMP1'), newStatus);
+});
+
+// Event Listener untuk tombol AC
+acToggle.addEventListener('click', () => {
+    const newStatus = acToggle.classList.contains('off');
+    set(ref(db, 'LAMP2'), newStatus);
 });
 
 // Fungsi untuk memperbarui status tombol di UI
