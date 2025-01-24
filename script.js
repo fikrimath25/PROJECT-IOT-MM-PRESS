@@ -156,28 +156,7 @@ onValue(ref(db, 'LAMP2'), (snapshot) => {
     updateStatusIndicator(acStatus, status);
 });
 
-// Update status AC di Firebase
-const currentStatus = lampToggle.classList.contains('off');  // true jika ON, false jika OFF
-const newStatus = !currentStatus; // Toggle status
-set(ref(db, 'LAMP1'), newStatus)
-    .then(() => {
-        console.log('Lamp status berhasil diperbarui di Firebase');
-    })
-    .catch((error) => {
-        console.error('Gagal memperbarui status AC di Firebase', error);
-    });
 });
-
-// Update status AC di Firebase
-const currentStatus = acToggle.classList.contains('off');  // true jika ON, false jika OFF
-const newStatus = !currentStatus; // Toggle status
-set(ref(db, 'LAMP2'), newStatus)
-    .then(() => {
-            console.log('AC status berhasil diperbarui di Firebase');
-    })
-    .catch((error) => {
-        console.error('Gagal memperbarui status AC di Firebase', error);
-    });
 
 // Event Listener untuk tombol Lampu
 lampToggle.addEventListener('click', () => {
