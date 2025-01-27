@@ -40,6 +40,34 @@ if (localStorage.getItem('rememberMe') === 'true') {
     rememberMeCheckbox.checked = true;
 }
 
+document.addEventListener("DOMContentLoaded", () => {
+    const body = document.getElementById('body');
+    const loginPage = document.getElementById('login-page');
+    const controlPanel = document.getElementById('control-panel');
+    const loginForm = loginPage.querySelector('form');
+    const logoutButton = controlPanel.querySelector('.logout');
+  
+    // Set initial page to login
+    body.classList.add('login');
+
+    // Handle login
+    loginForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        body.classList.remove('login');
+        body.classList.add('iot');
+        loginPage.classList.add('hidden');
+        controlPanel.classList.remove('hidden');
+  });
+  
+    // Handle logout
+    logoutButton.addEventListener('click', () => {
+        body.classList.remove('iot');
+        body.classList.add('login');
+        controlPanel.classList.add('hidden');
+        loginPage.classList.remove('hidden');
+      });
+    });
+  
 // Handler Form Login
 authForm.addEventListener('submit', (e) => {
     e.preventDefault();
