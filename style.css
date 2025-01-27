@@ -26,6 +26,7 @@ body {
 
 .container {
     width: 100%;
+    animation: slideIn 0.9s ease-in-out;
     max-width: 300px;
     padding: 20px;
     background: transparent;
@@ -126,7 +127,7 @@ button.toggle {
     font-size: 16px;
     font-weight: bold;
     border: none;
-    border-radius: 5px;
+    border-radius: 50px;
     cursor: pointer;
     transition: background 0,5ms ease, color 0.5ms ease;
     box-shadow: 0 8px 20px rgba(110, 95, 95, 0.534)
@@ -171,8 +172,8 @@ footer {
     justify-content: space-between;
     align-items: center;
     padding: 10px 15px;
-    border-radius: 10px;
-    background: linear-gradient(to bottom right, #ffe5f8, #3bcfc8);
+    border-radius: 50px;
+    background: linear-gradient(to bottom right, #3c1eaa, #43af6d);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
@@ -194,7 +195,7 @@ footer {
 .status-indicator {
     width: 20px;
     height: 20px;
-    border-radius: 50%;
+    border-radius: 50px;
     background: red;
     margin-left: 10px;
 }
