@@ -13,6 +13,7 @@ body {
 }
 
 body {
+    animation: slideIn 0.9s ease-in-out;
     font-family: 'Arial' serif, sans-serif;
     margin: 0;
     padding: 0;
