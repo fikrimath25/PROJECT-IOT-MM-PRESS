@@ -2,8 +2,9 @@ body {
     font-family: 'Arial', serif, sans-serif;
     margin: 0;
     padding: 0;
-    background: linear-gradient(to bottom right, #80d0c7, #efe3ff,  #00c521 );
-    color: #000000;
+    background: url('img.jpg') no-repeat;
+    background-size: cover;
+    background-position: center;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -15,7 +16,7 @@ body {
     font-family: 'Arial' serif, sans-serif;
     margin: 0;
     padding: 0;
-    display: flex;
+    color: #fafafa;
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -26,24 +27,27 @@ body {
     width: 100%;
     max-width: 300px;
     padding: 20px;
-    background: linear-gradient(to bottom right, #b5b8da, #1df73a);
+    background: transparent;
+    border:2px solid rgba(255, 255, 255, .2);
     border-radius: 50px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.534);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 0 10px rgba(0, 0, 0, .2);
     text-align: center;
-    animation: slideIn 0.8s ease-in-out;
 }
 
 .container {
-    margin: 25px
+    margin: 28px
 }
 
 .container1 {
     width: 100%;
     max-width: 350px;
     padding: 5px;
-    background: linear-gradient(to bottom right, #b5b8da, #1df73a);
+    background: transparent;
+    backdrop-filter: blur(20px);
     border-radius: 50px;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.534);
+    color: #000000;
     text-align: center;
     animation: slideIn 0.9s ease-in-out;
 }
@@ -87,7 +91,7 @@ form {
 input {
     padding: 12px;
     border: 2px solid #000000;
-    border-radius: 5px;
+    border-radius: 20px;
     font-size: 14px;
     background: #f7f7f7;
     color: #333;
@@ -104,7 +108,7 @@ button {
     font-size: 16px;
     font-weight: bold;
     border: none;
-    border-radius: 5px;
+    border-radius: 20px;
     background: #000000;
     color: white;
     cursor: pointer;
