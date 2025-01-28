@@ -32,7 +32,7 @@ const notification = document.getElementById('notification');
 const rememberMeCheckbox = document.getElementById('remember-me');
 const emailInput = document.getElementById('email');
 const passwordInput = document.getElementById('password');
-z
+
 // Cek jika rememberMe disimpan di localStorage dan isi input
 if (localStorage.getItem('rememberMe') === 'true') {
     emailInput.value = localStorage.getItem('email');
