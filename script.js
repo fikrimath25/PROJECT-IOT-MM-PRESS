@@ -33,6 +33,9 @@ const rememberMeCheckbox = document.getElementById('remember-me');
 const emailInput = document.getElementById('email');
 const passwordInput = document.getElementById('password');
 
+// Elemen tombol Update
+const updateButton = document.getElementById('update-button');
+
 // Cek jika rememberMe disimpan di localStorage dan isi input
 if (localStorage.getItem('rememberMe') === 'true') {
     emailInput.value = localStorage.getItem('email');
@@ -172,16 +175,16 @@ acToggle.addEventListener('click', () => {
     
 // Listener untuk status Lampu
 onValue(ref(db, 'LAMP1'), (snapshot) => {
-    const status = snapshot.val();
-    updateToggleStatus(lampToggle, status);
-    updateStatusIndicator(lampStatus, status);
+    const lampStatus = snapshot.val();
+        updateToggleStatus(lampToggle, lampStatus);
+        console.log('Status Lampu diperbarui:', lampStatus ? 'ON' : 'OFF');
 });
 
 // Listener untuk status AC
 onValue(ref(db, 'LAMP2'), (snapshot) => {
-    const status = snapshot.val()
-    updateToggleStatus(acToggle, status)
-    updateStatusIndicator(acStatus, status)
+    const acStatus = snapshot.val();
+    updateToggleStatus(acToggle, acStatus);
+    console.log('Status AC diperbarui:', acStatus ? 'ON' : 'OFF');
 })
 })
 
@@ -221,3 +224,9 @@ function updateToggleStatus(element, status) {
         element.textContent = 'OFF'
     }
 }
+
+// Event Listener untuk tombol Update
+updateButton.addEventListener('click', () => {
+    console.log('Memperbarui status perangkat...');
+    updateDeviceStatus();
+});
