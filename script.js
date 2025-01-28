@@ -173,20 +173,30 @@ acToggle.addEventListener('click', () => {
     acToggle.classList.toggle('off');
     acToggle.textContent = acToggle.classList.contains('on') ? 'ON' : 'OFF';
     
-// Listener untuk status Lampu
-onValue(ref(db, 'LAMP1'), (snapshot) => {
-    const lampStatus = snapshot.val();
-        updateToggleStatus(lampToggle, lampStatus);
-        console.log('Status Lampu diperbarui:', lampStatus ? 'ON' : 'OFF');
-});
+    function updateDeviceStatus() {
+        // Ambil status Lampu dari Firebase
+        onValue(ref(db, 'LAMP1'), (snapshot) => {
+            const lampStatus = snapshot.val();
+            updateToggleStatus(lampToggle, lampStatus);
+            console.log('Status Lampu diperbarui:', lampStatus ? 'ON' : 'OFF');
+        });
+    
+        // Ambil status AC dari Firebase
+        onValue(ref(db, 'LAMP2'), (snapshot) => {
+            const acStatus = snapshot.val();
+            updateToggleStatus(acToggle, acStatus);
+            console.log('Status AC diperbarui:', acStatus ? 'ON' : 'OFF');
+        });
+    }
+})
 
-// Listener untuk status AC
-onValue(ref(db, 'LAMP2'), (snapshot) => {
-    const acStatus = snapshot.val();
-    updateToggleStatus(acToggle, acStatus);
-    console.log('Status AC diperbarui:', acStatus ? 'ON' : 'OFF');
-})
-})
+notification.textContent = "Status perangkat diperbarui!";
+notification.className = "notification success";
+notification.style.display = "block"
+
+setTimeout(() => {
+    notification.style.display = "none";
+}, 2000);
 
 // Event Listener untuk tombol Lampu
 lampToggle.addEventListener('click', () => {
