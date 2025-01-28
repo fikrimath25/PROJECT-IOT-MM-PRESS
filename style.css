@@ -141,29 +141,6 @@ button.toggle.off:hover {
     background: #880000;
 }
 
-/* Gaya untuk Tombol Update */
-button.update {
-    margin-top: 20px;
-    padding: 10px 20px;
-    font-size: 16px;
-    font-weight: bold;
-    border: none;
-    border-radius: 20px;
-    background: #007bff;
-    color: white;
-    cursor: pointer;
-    transition: background 0.3s ease, transform 0.2s ease;
-    box-shadow: 0 8px 20px rgba(110, 95, 95, 0.534);
-}
-
-button.update:hover {
-    background: #0056b3;
-    transform: scale(1.05);
-}
-
-button.update:active {
-    transform: scale(0.95);
-}
 
 footer {
     margin-top: 20px;
