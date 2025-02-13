@@ -4,7 +4,7 @@ import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebase
 
 //Konfigurasi Firebase
 const firebaseConfig = {
-    apiKey: "AIzaSyA0bcsQKgj7SL17-l8c2DByCvmfP5YCmV8",
+    apiKey: "AIzaSyA0bcsQKgj7SL17-l8c2DByCvmfP5YCmV7",
     authDomain: "project-1-b1010.firebaseapp.com",
     databaseURL: "https://project-1-b1010-default-rtdb.firebaseio.com",
     projectId: "project-1-b1010",
